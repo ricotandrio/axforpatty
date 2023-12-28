@@ -1,15 +1,28 @@
 package recreate;
 
+import java.util.ArrayList;
+
+import meal.Customer;
+
 public class Game {
 	
-	private int life, score, patience, seat, time;
+	private int life, score, seat, time, chance;
+	public ArrayList<Customer> listCustomer = new ArrayList<>();
 
-	public Game(int life, int score, int patience, int seat, int time) {
+	public Game(int life, int score, int seat, int time) {
 		this.life = life;
 		this.score = score;
-		this.patience = patience;
 		this.seat = seat;
 		this.time = time;
+		this.chance = 0;
+	}
+	
+	public int getChance() {
+		return chance;
+	}
+
+	public void setChance(int chance) {
+		this.chance = chance;
 	}
 
 	public int getLife() {
@@ -26,14 +39,6 @@ public class Game {
 
 	public void setScore(int score) {
 		this.score = score;
-	}
-
-	public int getPatience() {
-		return patience;
-	}
-
-	public void setPatience(int plus) {
-		this.patience = patience + plus;
 	}
 
 	public int getSeat() {

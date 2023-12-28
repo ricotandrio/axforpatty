@@ -24,8 +24,6 @@ public class Main {
 		readDrink();
 		
 		homepage();
-		
-		scan.close();
 	}
 	
 	static void homepage() {
@@ -59,6 +57,7 @@ public class Main {
 				break;
 			case 3:
 				System.out.println("[!] byee ...");
+				scan.close();
 				break;
 			}
 			
@@ -91,18 +90,17 @@ public class Main {
 			switch(option) {
 			case 1:
 				game();
-				enter();
 				break;
 			case 2:
 				scoreBoard();
-				enter();
 				break;
 			case 3:
 				System.out.println("[!] byee ...");
 				system.logout();
-				enter();
 				break;
 			}
+
+			enter();
 		}while(option != 3);
 	}
 	
@@ -149,13 +147,20 @@ public class Main {
 		thread.start();
 		
 		String cmd = " ";
-		while(!cmd.equalsIgnoreCase("exit")) {
+		while(!cmd.equalsIgnoreCase("exit") && MyThread.stopper == false) {
 			cmd = scan.nextLine();
 			
 			thread.serve(cmd);
 		}
 		
-		thread.setStopper(true);
+		MyThread.stopper = true;
+
+		if(thread.getTime() >= 60) {
+			gameEnd();
+		} else {
+			gameLose();
+		}
+		
 		system.getCurrentUser().setScore(
 			system.getCurrentUser().getScore() + thread.getScore()
 		);
@@ -176,7 +181,7 @@ public class Main {
 					foodList.add(new Food(result[0], Integer.parseInt(result[1]), Integer.parseInt(result[2])));
 				}
 			}
-				
+			
 			scanFood.close();
 		} catch (Exception e) {
 			System.out.println("[!] fail to read food file");
@@ -231,4 +236,16 @@ public class Main {
 		scan.nextLine();
 	}
 
+	static void gameLose() {
+		System.out.println("\r\n" + 
+				"██    ██  ██████  ██    ██     ██       ██████  ███████ ███████ \r\n" + //
+				" ██  ██  ██    ██ ██    ██     ██      ██    ██ ██      ██      \r\n" + //
+				"  ████   ██    ██ ██    ██     ██      ██    ██ ███████ █████   \r\n" + //
+				"   ██    ██    ██ ██    ██     ██      ██    ██      ██ ██      \r\n" + //
+				"   ██     ██████   ██████      ███████  ██████  ███████ ███████ "
+		);
+		
+		scan.nextLine();
+	}
+	
 }

@@ -1,7 +1,5 @@
 package recreate;
 
-import java.util.Comparator;
-
 public class User {
 	private String name, pass;
 	private int score;
