@@ -8,7 +8,7 @@ import meal.Food;
 
 public class MyThread extends Thread {
 	
-	Game engine = new Game(5, 0, 5, 0);
+	Game engine = new Game(5, 0, Main.restaurantSize, 0);
 	static boolean stopper;
 
 	public MyThread (ArrayList<Food> foodList, ArrayList<Drink> drinkList) {
@@ -32,6 +32,17 @@ public class MyThread extends Thread {
 		System.out.println("\n");
 		// System.out.println(stopper + " " + r + " " + engine.getChance() + " " + engine.getSeat() + " " + engine.listCustomer.size());
 		System.out.println("Time : " + engine.getTime() + " || " + "Life : " + engine.getLife() + " || " + "Score : " + engine.getScore() + "\n");
+		
+		if(Main.worker == true){
+			System.out.print("  Worker: ");
+
+			for(int i = 0; i < 10; i++){
+				System.out.print((i < engine.getTime() % 10) ? "#" : " ");
+			}
+
+			System.out.println("\n");
+		}
+
 		System.out.println("========================================================================================");
 		System.out.println(" No  |  Patience     |  Food                    |   Drink                  |  Price    |");
 		System.out.println("========================================================================================");
@@ -53,7 +64,13 @@ public class MyThread extends Thread {
 				(currCust.cFood.getPrice() + currCust.cDrink.getPrice()) * currCust.patience
 			);			
 
+			// check customer already served or not
 			checkCustomer(currCust, j);
+
+			// If a worker is available, they will serve customers in a FIFO manner every 10 seconds.
+			if(Main.worker == true && engine.listCustomer.size() != 0 && engine.getTime() % 10 == 0 && engine.getTime() > 1){
+				addScore(engine.listCustomer.get(0), 0);
+			}
 		}
 
 		System.out.println("========================================================================================");
@@ -75,6 +92,7 @@ public class MyThread extends Thread {
 				e.printStackTrace();
 			}
 			
+			// the probability of a customer arriving and the decrease in patience level
 			if(rand <= engine.getChance()) {
 				for (Customer cust : engine.listCustomer) {
 					cust.patience -= 1;
@@ -90,11 +108,10 @@ public class MyThread extends Thread {
 			engine.setChance(engine.getChance() + 10);
 			engine.setTime(1);
 		}
-		
-		if(engine.getTime() >= 60) {
-			Main.gameEnd();
-		} else {
-			Main.gameLose();
+			
+		if(!Main.cmd.equalsIgnoreCase("exit")){
+			if(engine.getTime() >= 60) Main.gameEnd();
+			else Main.gameLose();
 		}
 		
 		stopper = true;
@@ -131,11 +148,15 @@ public class MyThread extends Thread {
 		}
 	}
 
+	private void addScore(Customer currCust, int index){
+		int points = (currCust.cFood.getPrice() + currCust.cDrink.getPrice()) * currCust.patience;
+		engine.setScore(engine.getScore() + points);
+		engine.listCustomer.remove(index);
+	}
+
 	private void checkCustomer(Customer currCust, int index){
 		if(currCust.serveDrink == true && currCust.serveFood == true) {
-			int points = (currCust.cFood.getPrice() + currCust.cDrink.getPrice()) * currCust.patience;
-			engine.setScore(engine.getScore() + points);
-			engine.listCustomer.remove(index);
+			addScore(currCust, index);
 		}
 
 		if(currCust.patience <= 0){

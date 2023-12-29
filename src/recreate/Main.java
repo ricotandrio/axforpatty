@@ -19,7 +19,14 @@ public class Main {
 	static File drinkFile = new File("./src/db/drink.txt");
 	static File accountFile = new File("./src/db/players.txt");
 	
+	static boolean worker;
+	static int restaurantSize;
+	static String cmd = " ";
+
 	public static void main(String[] args) {
+		worker = false;
+		restaurantSize = 5;
+
 		readFood();
 		readDrink();
 		
@@ -73,7 +80,7 @@ public class Main {
 			clear();
 			logo();
 			
-			System.out.println("Welcome, " + system.getCurrentUser().getName());
+			System.out.println("Welcome, " + system.getCurrentUser().getName() + " | Score: " + system.getCurrentUser().getScore());
 			System.out.println("1. Play Game");
 			System.out.println("2. View Scoreboard");
 			System.out.println("3. Exit");
@@ -118,15 +125,19 @@ public class Main {
 	static void register() {
 		clear();
 		User registerUser = new User();
-		do {
-			System.out.print("Input a unique username [5...20]: ");
-			registerUser.setName(scan.nextLine());
-		}while(registerUser.getName().length() < 5 || registerUser.getName().length() > 20);
-		
-		do {
-			System.out.print("Input your passwordd [8..20]: ");
-			registerUser.setPass(scan.nextLine());
-		}while(registerUser.getPass().length() < 8 || registerUser.getPass().length() > 20);
+
+		do{
+			do {
+				System.out.print("Input a unique username [5...20]: ");
+				registerUser.setName(scan.nextLine());
+			}while(registerUser.getName().length() < 5 || registerUser.getName().length() > 20);
+			
+			do {
+				System.out.print("Input your password [8..20]: ");
+				registerUser.setPass(scan.nextLine());
+			}while(registerUser.getPass().length() < 8 || registerUser.getPass().length() > 20);
+
+		}while(system.isExists(registerUser.getName()));
 		
 		registerUser.setScore(100);
 		system.writeAccount(registerUser);
@@ -146,7 +157,6 @@ public class Main {
 		
 		thread.start();
 		
-		String cmd = " ";
 		while(!cmd.equalsIgnoreCase("exit") && MyThread.stopper == false) {
 			cmd = scan.nextLine();
 			
@@ -154,14 +164,67 @@ public class Main {
 		}
 		
 		MyThread.stopper = true;
-		
+
+		int decrease = 0;
+		if(cmd.equalsIgnoreCase("upgrade")){
+			decrease = upgradeRestaurant(thread);
+		}
+
 		system.getCurrentUser().setScore(
-			system.getCurrentUser().getScore() + thread.getScore()
+			system.getCurrentUser().getScore() + thread.getScore() - decrease
 		);
 		
 		system.updateCurrUser();
 		
 		System.out.println("\n[*] game end, score updated");
+	}
+
+	static int upgradeRestaurant(MyThread thread){
+		clear();
+		
+		System.out.println("Hi, " + system.getCurrentUser().getName() + " Score: " + (system.getCurrentUser().getScore() + thread.getScore()) + "\n");
+
+		System.out.println("1. Expand Restaurant - 2,850,000");
+		System.out.println("2. Hire Worker - 4,000,000");
+		System.out.println("3. Help");
+		System.out.println("4. Exit");
+		
+		int p = -1;
+		do {
+			try {
+				System.out.print(">> ");
+				p = Integer.parseInt(scan.nextLine());
+			} catch (Exception e) {
+				p = -1;
+				System.out.println("input should be a number");
+			}
+		}while(p < 1 || p > 4);
+
+		switch (p) {
+			case 1:
+				if(restaurantSize < 20){
+					restaurantSize += 1;
+					System.out.println("[*] restaurant upgraded, current size is " + restaurantSize);
+					return 2850000;
+				} else {
+					System.out.println("[*] restaurant at max level, current size is " + restaurantSize);
+				}
+				break;
+			case 2:
+				if(worker == false){
+					System.out.println("[*] worker hired");
+					worker = true;
+					return 4000000;
+				} else {
+					System.out.println("[*] maximum worker is one");
+				}
+				break;
+			case 3:
+				System.out.println("[?] Expand restaurant will add 1 extra seat for customers.");
+				System.out.println("[?] Workers will complete the menu based on queue (First In First Out). The Cooking time for each worker will be 10 seconds.");
+				break;
+		}
+		return 0;
 	}
 	
 	static void readFood() {
@@ -226,16 +289,15 @@ public class Main {
 				  "█░░?█▀▀?█░█?█▀▀?█░░? ?█▀▀?█░░?█▀▀?▄▀█?█▀█?█▀▀?█▀▄\r\n"
 				+ "█▄▄?██▄?▀▄▀?██▄?█▄▄? ?█▄▄?█▄▄?██▄?█▀█?█▀▄?██▄?█▄▀\r\n"
 				+ "\r\n"
-				+ "Type exit to stop playing...");
+				+ "Click 'enter' to quit or type 'upgrade' to continue ...");
 	}
 
 	static void gameLose() {
 		System.out.println("\r\n" + 
 			"█▄█?█▀█?█░█? ?█░░?█▀█?█▀?▀█▀ \r\n" + 
 			" █░?█▄█?█▄█? ?█▄▄?█▄█?▄█?░█░\r\n" +
-			"\r\n" + "Type exit to stop playing..."
+			"\r\n" + "Click 'enter' to quit or type 'upgrade' to continue ..."
 		);
-		
 	}
 	
 }

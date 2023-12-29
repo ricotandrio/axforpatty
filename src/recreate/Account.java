@@ -33,6 +33,16 @@ public class Account {
 		System.out.println("[!] account doesn't exists");
 		return false;
 	}
+
+	public boolean isExists(String name){
+		for (User user : account) {
+			if(user.getName().equals(name)){
+				System.out.println("[!] username has been taken, choose another username");
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public String[] deserialize(String rawLine) {
 		return rawLine.split("#");
@@ -112,4 +122,5 @@ public class Account {
 			}
 		}
 	}
+
 }
