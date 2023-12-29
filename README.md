@@ -22,10 +22,14 @@ The project contains three packages:
 * Game result if you survive the 60 seconds, you win! Your score is recorded in a local text file. If your patience meter reaches 0% before the timer ends, you lose.
 * Customers, foods, and drinks will appear in random order.
 
-<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/dfbfce07-8b0a-4cd3-af42-3e3ae0707240" width="300" />
+<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/e24754b4-4b45-4476-accf-47316ed8b3a2" width="300" />
 <br/>
-<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/7b91de7c-c1af-4d7b-a928-f8678f736f2f" width="300" />
+<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/576d574c-755c-4b65-9b2d-9626f87e8fd6" width="300" />
+<br/>
+<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/14a92bb8-3abe-4316-816c-2b86cde9192b" width="300" />
 
 ## Scoreboard Preview
-<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/00f22433-ff37-41d5-8e75-967673c23e5a =250x250" width="300" />
+<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/00f22433-ff37-41d5-8e75-967673c23e5a" width="300" />
 
+## Restaurant Upgradability
+<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/9a9832d5-ae2d-43a1-bde2-678aabffd0a4" width="300" />
