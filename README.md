@@ -22,9 +22,9 @@ The project contains three packages:
 * Game result if you survive the 60 seconds, you win! Your score is recorded in a local text file. If your patience meter reaches 0% before the timer ends, you lose.
 * Customers, foods, and drinks will appear in random order.
 
-<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/5411484c-ecdd-493d-82da-8353256098c6" width="300" />
+<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/dfbfce07-8b0a-4cd3-af42-3e3ae0707240" width="300" />
 <br/>
-<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/31ceda8b-ab48-4405-964d-8b177de4ca6b" width="300" />
+<img src="https://github.com/ricotandrio/axforpatty/assets/119276763/7b91de7c-c1af-4d7b-a928-f8678f736f2f" width="300" />
 
 ## Scoreboard Preview
 <img src="https://github.com/ricotandrio/axforpatty/assets/119276763/00f22433-ff37-41d5-8e75-967673c23e5a =250x250" width="300" />

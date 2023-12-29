@@ -84,7 +84,13 @@ public class MyThread extends Thread {
 			engine.setChance(engine.getChance() + 10);
 			engine.setTime(1);
 		}
-		System.out.println("\n program END, please press enter to see result ...");
+		
+		if(engine.getTime() >= 60) {
+			Main.gameEnd();
+		} else {
+			Main.gameLose();
+		}
+		
 		stopper = true;
 	}
 	

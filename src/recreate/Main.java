@@ -154,12 +154,6 @@ public class Main {
 		}
 		
 		MyThread.stopper = true;
-
-		if(thread.getTime() >= 60) {
-			gameEnd();
-		} else {
-			gameLose();
-		}
 		
 		system.getCurrentUser().setScore(
 			system.getCurrentUser().getScore() + thread.getScore()
@@ -167,7 +161,7 @@ public class Main {
 		
 		system.updateCurrUser();
 		
-		System.out.println("[*] game end, score updated");
+		System.out.println("\n[*] game end, score updated");
 	}
 	
 	static void readFood() {
@@ -232,20 +226,16 @@ public class Main {
 				  "█░░?█▀▀?█░█?█▀▀?█░░? ?█▀▀?█░░?█▀▀?▄▀█?█▀█?█▀▀?█▀▄\r\n"
 				+ "█▄▄?██▄?▀▄▀?██▄?█▄▄? ?█▄▄?█▄▄?██▄?█▀█?█▀▄?██▄?█▄▀\r\n"
 				+ "\r\n"
-				+ "Type exit to stop playing or continue to continue...");
-		scan.nextLine();
+				+ "Type exit to stop playing...");
 	}
 
 	static void gameLose() {
 		System.out.println("\r\n" + 
-				"██    ██  ██████  ██    ██     ██       ██████  ███████ ███████ \r\n" + //
-				" ██  ██  ██    ██ ██    ██     ██      ██    ██ ██      ██      \r\n" + //
-				"  ████   ██    ██ ██    ██     ██      ██    ██ ███████ █████   \r\n" + //
-				"   ██    ██    ██ ██    ██     ██      ██    ██      ██ ██      \r\n" + //
-				"   ██     ██████   ██████      ███████  ██████  ███████ ███████ "
+			"█▄█?█▀█?█░█? ?█░░?█▀█?█▀?▀█▀ \r\n" + 
+			" █░?█▄█?█▄█? ?█▄▄?█▄█?▄█?░█░\r\n" +
+			"\r\n" + "Type exit to stop playing..."
 		);
 		
-		scan.nextLine();
 	}
 	
 }
