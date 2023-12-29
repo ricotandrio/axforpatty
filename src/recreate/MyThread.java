@@ -52,6 +52,8 @@ public class MyThread extends Thread {
 				currCust.serveDrink == true ? "v" : " ",
 				(currCust.cFood.getPrice() + currCust.cDrink.getPrice()) * currCust.patience
 			);			
+
+			checkCustomer(currCust, j);
 		}
 
 		System.out.println("========================================================================================");
@@ -73,14 +75,18 @@ public class MyThread extends Thread {
 				e.printStackTrace();
 			}
 			
-			if(rand <= engine.getChance() && engine.listCustomer.size() < engine.getSeat()) {
-				engine.listCustomer.add(randomCustomer());
-				
+			if(rand <= engine.getChance()) {
 				for (Customer cust : engine.listCustomer) {
 					cust.patience -= 1;
 				}
+
+				if(engine.listCustomer.size() < engine.getSeat()){
+					engine.listCustomer.add(randomCustomer());
+				}
+
+				engine.setChance(0);
 			}
-			
+
 			engine.setChance(engine.getChance() + 10);
 			engine.setTime(1);
 		}
@@ -107,25 +113,33 @@ public class MyThread extends Thread {
 		for(int i = 0; i < engine.listCustomer.size(); i++){
 			Customer currCust = engine.listCustomer.get(i);
 
-			if(currCust.cDrink.getName().equalsIgnoreCase(serve)){
+			if(currCust.cDrink.getName().equalsIgnoreCase(serve) && currCust.serveDrink == false){
 				isFound = true;
 				currCust.serveDrink = true;
+				return;
 			}
 
-			if(currCust.cFood.getName().equalsIgnoreCase(serve)){
+			if(currCust.cFood.getName().equalsIgnoreCase(serve) && currCust.serveFood == false){
 				isFound = true;
 				currCust.serveFood = true;
-			}
-			
-			if(currCust.serveDrink == true && currCust.serveFood == true) {
-				int points = (currCust.cFood.getPrice() + currCust.cDrink.getPrice()) * currCust.patience;
-				engine.setScore(engine.getScore() + points);
-				engine.listCustomer.remove(i);
+				return;
 			}
 		}
 		
 		if(isFound == false) {
 			engine.setLife(engine.getLife() - 1);
+		}
+	}
+
+	private void checkCustomer(Customer currCust, int index){
+		if(currCust.serveDrink == true && currCust.serveFood == true) {
+			int points = (currCust.cFood.getPrice() + currCust.cDrink.getPrice()) * currCust.patience;
+			engine.setScore(engine.getScore() + points);
+			engine.listCustomer.remove(index);
+		}
+
+		if(currCust.patience <= 0){
+			engine.listCustomer.remove(index);
 		}
 	}
 }
